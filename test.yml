@@ -35,12 +35,21 @@ tags:
 estimated_runtime: 7200
 
 vars:
-  size_of_disks:
+  data_per_vm:
     description:
-      Size of each vdisk in GB
+      Amount of Data per Fill VM
     default: 64
     min: 1
     max: 1024
+
+  vms_per_node:  
+    description:
+      How many Fill VMs per Node
+    default: 1
+    min: 1
+    max: 100
+
+{% set size_of_disks = data_per_vm // 4 %}      
 
 vms:
   - BigData:
@@ -51,7 +60,7 @@ vms:
         count: 4
         size: {{ size_of_disks }}
       nodes: all
-      count_per_node: 1
+      count_per_node: {{ vms_per_node }}
 
 workloads:
   - BigData:
